@@ -2,6 +2,8 @@ const express = require('express'),
 hbs = require('hbs'),
 fs = require('fs');
 
+const port = process.env.PORT || 3000;
+
 var app = express();
 hbs.registerPartials(__dirname+ '/views/partials');
 
@@ -19,13 +21,13 @@ app.use(function(req, res, next){
   next();
 });
 
-app.use(function(req, res, next){
-  res.render('maintenance.hbs', {
-    webSiteTitle: 'Some Website',
-    pageTitle: 'Maintenance Page'
-  });
-
-});
+// app.use(function(req, res, next){
+//   res.render('maintenance.hbs', {
+//     webSiteTitle: 'Some Website',
+//     pageTitle: 'Maintenance Page'
+//   });
+//
+// });
 
 //Static Middleware
 app.use(express.static(__dirname + '/public'));
@@ -65,6 +67,6 @@ app.get('/about', function(req, res){
 //   });
 // });
 
-app.listen(3000, function() {
-  console.log('Server is up');
+app.listen(port, function() {
+  console.log(`Server is up on port ${port}`);
 });
