@@ -5,14 +5,14 @@ fs = require('fs');
 const port = process.env.PORT || 3000;
 
 var app = express();
-hbs.registerPartials(__dirname+ '/views/partials');
+hbs.registerPartials(__dirname + '/views/partials');
 
 app.set('view engine', 'hbs');
 //Middleware
 app.use(function(req, res, next){
   var now = new Date().toString();
   var log = `${now}: ${req.method} ${req.url} \n`;
-  console.log(log);
+  // console.log(log);
   fs.appendFile('server.log', log , function(err){
     if (err){
       console.log('Unable to append to server.log');
@@ -21,9 +21,12 @@ app.use(function(req, res, next){
   next();
 });
 
+// Maintennce page - This should be first in order to enable
+// next() is not called hence request is stopped.
+
 // app.use(function(req, res, next){
 //   res.render('maintenance.hbs', {
-//     webSiteTitle: 'Some Website',
+//     webSiteTitle: 'My Website',
 //     pageTitle: 'Maintenance Page'
 //   });
 //
@@ -33,21 +36,21 @@ app.use(function(req, res, next){
 app.use(express.static(__dirname + '/public'));
 
 
-//Template engine
+//Template engine helper
 hbs.registerHelper('getCurrentYear', function(){
   return new Date().getFullYear();
 });
 
-hbs.registerHelper('screamIt', function(text){
+hbs.registerHelper('upperCaseIt', function(text){
   return text.toUpperCase();
 });
 
 
-// Get handler
+// Route handler
 app.get('/', function(req, res){
   res.render('home.hbs',{
-    webSiteTitle: 'Some Website',
-    welcomeMessage: 'Welcome to Wonderful SomeWebsite',
+    webSiteTitle: 'My Website',
+    welcomeMessage: 'Welcome to MyWebsite',
     pageTitle: 'Home Page',
     currentYear: new Date().getFullYear()
 
@@ -63,18 +66,11 @@ app.get('/about', function(req, res){
 
 app.get('/projects', function(req, res){
   res.render('projects.hbs', {
-    welcomeMessage: 'Protfolio information',
+    welcomeMessage: 'MyProject information',
     pageTitle: 'Projects Page',
     currentYear: new Date().getFullYear()
   });
 });
-
-
-// app.get('/bad', function(req, res){
-//   res.send({
-//     errorMessage: 'Unable to process request'
-//   });
-// });
 
 app.listen(port, function() {
   console.log(`Server is up on port ${port}`);
