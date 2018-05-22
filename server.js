@@ -61,6 +61,15 @@ app.get('/about', function(req, res){
   });
 });
 
+app.get('/projects', function(req, res){
+  res.render('projects.hbs', {
+    welcomeMessage: 'Protfolio information',
+    pageTitle: 'Projects Page',
+    currentYear: new Date().getFullYear()
+  });
+});
+
+
 // app.get('/bad', function(req, res){
 //   res.send({
 //     errorMessage: 'Unable to process request'
